@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)file:///E:/zampp/htdocs/hello/music/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MusicVerse - Download &amp; Play Music</title>
+  <link rel="stylesheet" href="./index_files/all.min.css">
+  <link rel="stylesheet" href="file:///E:/zampp/htdocs/hello/music/styleh.css">
+  
+<style>
+  /* style.css */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 2px;
+  background: #0f0f0f;
+  color: #ffffff;
+}
+
+header {
+  background: linear-gradient(39deg, #000000,#25b42b);
+  padding: 5px 15px;
+  text-align: center;
+  color: white;
+  border-radius: 0 0 25px 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+header h1 i {
+  font-size: 2.3rem;
+}
+
+header p {
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 300;
+  color: #e2ffe9;
+}
+
+.container {
+  padding: 30px 15px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.search-bar {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.search-bar input {
+  width: 90%;
+  max-width: 500px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.song {
+  background: #1b1b1b;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1px;
+}
+
+.song:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+}
+
+.song img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.song-info {
+  flex-grow: 1;
+  min-width: 200px;
+}
+
+.song-info h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #ffffff;
+}
+
+.song-info p {
+  margin: 6px 0 12px;
+  color: #aaaaaa;
+}
+
+.actions {
+  margin-left: auto;
+  text-align: right;
+  min-width: 100px;
+}
+
+.download-btn {
+  /* background: #25b42b; */
+  color: white;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  border-radius: 25px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+  background: #25db6d;
+  box-shadow: 0 0 10px #1db954aa;
+  transform: scale(1.05);
+}
+
+audio {
+  /* width: 100%; */
+  margin-top: 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  font-size: 0.9rem;
+  color: #777;
+  border-top: 1px solid #222;
+  margin-top: 30px;
+}
+
+.song.active {
+  box-shadow: 0 0 25px #1db95499, 0 0 10px #1db95455;
+  border: 1px solid #1db95488;
+}
+
+/* 🔄 Responsive Tweaks */
+@media (max-width: 768px) {
+  .song {
+    
+    align-items: flex-start;
+    
+  }
+
+  .song img {
+    margin: 0 auto;
+  }
+
+  .actions {
+    margin-left: 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  .download-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+
+}
+.social-bar {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.social-bar a {
+  color: white;
+  font-size: 1.3rem;
+  transition: color 0.3s ease;
+}
+
+.social-bar a:hover {
+  color: #0a0;
+}
+
+
+
+</style>
+<!--
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #0f0f0f;
+      color: #ffffff;
+    }
+
+    header {
+  background: linear-gradient(135deg, #1db954, #18c36f);
+  padding: 40px 20px;
+  text-align: center;
+  color: white;
+  border-radius: 0 0 25px 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+header h1 i {
+  font-size: 2.3rem;
+}
+
+header p {
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 300;
+  color: #e2ffe9;
+}
+
+
+    .container {
+      padding: 30px 15px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .search-bar {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .search-bar input {
+      width: 90%;
+      max-width: 500px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .song {
+      background: #1b1b1b;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .song:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    }
+
+    .song img {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .song-info h3 {
+      margin: 0;
+      font-size: 1.3rem;
+      color: #ffffff;
+    }
+
+    .song-info p {
+      margin: 6px 0 12px;
+      color: #aaaaaa;
+    }
+
+    .actions {
+      margin-top: 10px;
+    }
+
+    .download-btn {
+      background: #1db954;
+      color: white;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      border-radius: 25px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background: #25db6d;
+      box-shadow:10px #1db954aa;
+      transform:scale(1.05);
+     }
+
+    audio {
+      width: 100%;
+      margin-top: 10px; 
+     }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 1px solid #222;
+      margin-top: 30px;
+    }
+    .song.active {
+  box-shadow: 0 0 25px #1db95499, 0 0 10px #1db95455;
+  border: 1px solid #1db95488;
+    }
+
+
+    @media (max-width: 600px) {
+      .song {
+        text-align: center;
+      }
+
+      .song img {
+        margin: auto;
+      }
+
+      .download-btn {
+        width: 100%;
+        margin-top: 10px;
+      }
+    }
+  </style>
+-->
+</head>
+<body>
+  <!-----------------------------------------------------------starthtml---->
+
+
+
+
+  <!----------------------------------------endhtml--------------------------------->
+
+<header>
+  <h1>GeetBox</h1>
+  <p>Feel the beat. Stream &amp; Download latest hits now.</p>
+
+
+  <div class="social-bar">
+    <a href="https://instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://yourwebsite.com/" target="_blank"><i class="fas fa-globe"></i></a>
+    <a href="tel:+919999999999"><i class="fas fa-phone-alt"></i></a>
+  </div>
+
+
+</header>
+
+
+  <div class="container">
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search songs by name or artist..." onkeyup="filterSongs()">
+    </div>
+
+    <!-- SONG CARD TEMPLATE -->
+    <div class="song" data-title="Night Vibes" data-artist="Artist A">
+      <img src="./index_files/opsz24.png" alt="Song Cover">
+      <div class="song-info">
+        <h3>Night Vibes - Artist A</h3>
+        <p>Release: July 2025</p>
+        <audio controls="" src="music/kugelsicher-by-tremoxbeatz-302838.mp3"></audio>
+      </div>
+      <div class="actions">
+        <a class="download-btn" href="file:///E:/zampp/htdocs/hello/music/music/kugelsicher-by-tremoxbeatz-302838.mp3" download="">Download</a>
+      </div>
+    </div>
+
+    <div class="song" data-title="Sunset Drive" data-artist="DJ Sonic">
+      <img src="./index_files/opsz24.png" alt="Song Cover">
+      <div class="song-info">
+        <h3>Sunset Drive - DJ Sonic</h3>
+        <p>Release: June 2025</p>
+        
+        <audio controls="" src="music/gorila-315977.mp3"></audio>
+      </div>
+      <div class="actions">
+        <a class="download-btn" href="file:///E:/zampp/htdocs/hello/music/music/gorila-315977.mp3" download="">Download</a>
+      </div>
+    </div>
+
+    <div class="song" data-title="Dreamwave" data-artist="Synth Bros">
+      <img src="./index_files/opsz24.png" alt="Song Cover">
+      <div class="song-info">
+        <h3>Dreamwave - Synth Bros</h3>
+        <p>Release: July 2025</p>
+        <audio controls="" src="music/alone-296348.mp3"></audio>
+      </div>
+      <div class="actions">
+        <a class="download-btn" href="file:///E:/zampp/htdocs/hello/music/music/alone-296348.mp3" download="">Download</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    © 2025 MusicVerse. All rights reserved.
+  </footer>
+
+  <script>
+    function filterSongs() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const songs = document.querySelectorAll('.song');
+      songs.forEach(song => {
+        const title = song.dataset.title.toLowerCase();
+        const artist = song.dataset.artist.toLowerCase();
+        if (title.includes(input) || artist.includes(input)) {
+          song.style.display = "block";
+        } else {
+          song.style.display = "none";
+        }
+      });
+    }
+  </script>
+  <!-------------------------------------------------javascript------------------------------------->
+
+<!------------------------------------------------------------------------------>
+
+<script>
+  const players = document.querySelectorAll(".player-container");
+
+  players.forEach(player => {
+    const audio = new Audio(player.dataset.src);
+    const playBtn = player.querySelector(".play");
+    const progress = player.querySelector(".progress");
+    const prevBtn = player.querySelector(".prev");
+    const nextBtn = player.querySelector(".next");
+    const shuffleBtn = player.querySelector(".shuffle");
+    const repeatBtn = player.querySelector(".repeat");
+
+    let isPlaying = false;
+    let isRepeat = false;
+    let isShuffle = false;
+
+    // Play/Pause
+    playBtn.addEventListener("click", () => {
+      if (isPlaying) {
+        audio.pause();
+        playBtn.textContent = "▶️";
+      } else {
+        audio.play();
+        playBtn.textContent = "⏸️";
+      }
+    });
+
+    audio.addEventListener("play", () => isPlaying = true);
+    audio.addEventListener("pause", () => isPlaying = false);
+
+    // Progress bar update
+    audio.addEventListener("timeupdate", () => {
+      progress.value = (audio.currentTime / audio.duration) * 100 || 0;
+    });
+
+    progress.addEventListener("input", () => {
+      audio.currentTime = (progress.value / 100) * audio.duration;
+    });
+
+    // Repeat toggle
+    repeatBtn.addEventListener("click", () => {
+      isRepeat = !isRepeat;
+      audio.loop = isRepeat;
+      repeatBtn.style.color = isRepeat ? "#1db954" : "white";
+    });
+
+    // Shuffle (simulated, no playlist logic here)
+    shuffleBtn.addEventListener("click", () => {
+      isShuffle = !isShuffle;
+      shuffleBtn.style.color = isShuffle ? "#1db954" : "white";
+    });
+
+    // Previous (rewind)
+    prevBtn.addEventListener("click", () => {
+      audio.currentTime = 0;
+    });
+
+    // Next (for multi-song support, you'd need a playlist array)
+    nextBtn.addEventListener("click", () => {
+      audio.currentTime = audio.duration;
+    });
+
+    // Auto reset button when ended
+    audio.addEventListener("ended", () => {
+      playBtn.textContent = "▶️";
+      isPlaying = false;
+    });
+  });
+</script>
+
+
+<!----------------------------------------------------javascript------------------------------------>
+<script>
+  function filterSongs() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const songs = document.querySelectorAll('.song');
+    songs.forEach(song => {
+      const title = song.dataset.title.toLowerCase();
+      const artist = song.dataset.artist.toLowerCase();
+      if (title.includes(input) || artist.includes(input)) {
+        song.style.display = "block";
+      } else {
+        song.style.display = "none";
+      }
+    });
+  }
+
+  // Allow only one audio to play and highlight its box
+  document.addEventListener("play", function (e) {
+    const audios = document.querySelectorAll("audio");
+    audios.forEach(audio => {
+      if (audio !== e.target) {
+        audio.pause();
+        audio.closest('.song').classList.remove('active');
+      } else {
+        audio.closest('.song').classList.add('active');
+      }
+    });
+  }, true);
+
+  // Optional: remove highlight when song is paused or ended
+  document.addEventListener("pause", function (e) {
+    e.target.closest('.song')?.classList.remove('active');
+  }, true);
+</script>
+
+
+
+</body></html>
