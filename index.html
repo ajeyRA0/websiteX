@@ -37,23 +37,45 @@
 </head>
 <body class="antialiased selection:bg-[#f7b538] selection:text-black min-h-screen flex flex-col">
 
-    <!-- Navigation Bar -->
-    <nav class="sticky top-0 z-50 bg-[#780116] border-b-2 border-[#f7b538] glow-gold">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex-shrink-0 cursor-pointer" onclick="navigate('home')">
-                    <h1 class="text-3xl font-bold italic tracking-wider uppercase text-white">
-                        Elite<span class="text-[#f7b538] glow-text">Slots</span>
-                    </h1>
-                </div>
-                <div class="flex items-center space-x-4 sm:space-x-8">
-                    <button onclick="navigate('home')" id="nav-home" class="text-[#f7b538] border-b-2 border-[#f7b538] pb-1 font-bold text-lg uppercase tracking-widest hover:text-white transition-colors duration-300">Home</button>
-                    <button onclick="navigate('bookings')" id="nav-bookings" class="text-gray-300 border-b-2 border-transparent pb-1 font-bold text-lg uppercase tracking-widest hover:text-[#f7b538] transition-colors duration-300">My Bookings</button>
-                    <button onclick="navigate('admin-login')" id="nav-admin" class="text-gray-300 border-b-2 border-transparent pb-1 font-bold text-lg uppercase tracking-widest hover:text-[#f7b538] transition-colors duration-300">Admin</button>
-                </div>
-            </div>
+    <!-- Top Header with Hamburger -->
+    <header class="sticky top-0 z-40 bg-[#780116] border-b-2 border-[#f7b538] glow-gold h-20 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div class="flex-shrink-0 cursor-pointer" onclick="navigate('home')">
+            <h1 class="text-3xl font-bold italic tracking-wider uppercase text-white">
+                Elite<span class="text-[#f7b538] glow-text">Slots</span>
+            </h1>
         </div>
-    </nav>
+        <button onclick="toggleSidebar()" class="text-[#f7b538] hover:text-white transition-colors focus:outline-none">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+    </header>
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden transition-opacity duration-300 opacity-0"></div>
+
+    <!-- Right Responsive Sidebar -->
+    <aside id="right-sidebar" class="fixed inset-y-0 right-0 w-64 sm:w-72 bg-[#780116] border-l-2 border-[#f7b538] z-50 transform translate-x-full transition-transform duration-300 shadow-[-5px_0_20px_rgba(0,0,0,0.5)] flex flex-col">
+        <div class="p-5 flex justify-between items-center border-b border-[#f7b538]/30">
+            <h2 class="text-2xl font-bold text-[#f7b538] uppercase tracking-wider">Menu</h2>
+            <button onclick="toggleSidebar()" class="text-gray-400 hover:text-[#f7b538] text-4xl leading-none transition-colors">&times;</button>
+        </div>
+        <nav class="flex flex-col p-4 space-y-3 flex-grow">
+            <button onclick="navigate('home'); toggleSidebar()" id="nav-home" class="flex items-center space-x-3 text-left w-full p-3 rounded text-[#f7b538] bg-black/20 border border-[#f7b538]/30 font-bold text-lg uppercase tracking-widest transition-all duration-300">
+                <span>🏠</span> <span>Home</span>
+            </button>
+            <button onclick="navigate('bookings'); toggleSidebar()" id="nav-bookings" class="flex items-center space-x-3 text-left w-full p-3 rounded text-gray-300 hover:text-[#f7b538] hover:bg-black/20 border border-transparent hover:border-[#f7b538]/30 font-bold text-lg uppercase tracking-widest transition-all duration-300">
+                <span>📅</span> <span>My Bookings</span>
+            </button>
+            <button onclick="navigate('admin-login'); toggleSidebar()" id="nav-admin" class="flex items-center space-x-3 text-left w-full p-3 rounded text-gray-300 hover:text-[#f7b538] hover:bg-black/20 border border-transparent hover:border-[#f7b538]/30 font-bold text-lg uppercase tracking-widest transition-all duration-300">
+                <span>🛠</span> <span>Admin Panel</span>
+            </button>
+            <button onclick="navigate('settings'); toggleSidebar()" id="nav-settings" class="flex items-center space-x-3 text-left w-full p-3 rounded text-gray-300 hover:text-[#f7b538] hover:bg-black/20 border border-transparent hover:border-[#f7b538]/30 font-bold text-lg uppercase tracking-widest transition-all duration-300">
+                <span>⚙</span> <span>Settings</span>
+            </button>
+        </nav>
+        <div class="p-6 text-center border-t border-[#f7b538]/30 mt-auto">
+            <p class="text-[10px] text-gray-400 uppercase tracking-widest">© 2026 EliteSlots</p>
+        </div>
+    </aside>
 
     <!-- Main Content Area -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
@@ -174,6 +196,20 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings-view" class="hidden animate-fade-in">
+            <div class="flex justify-between items-end mb-8 border-b border-[#f7b538]/30 pb-4">
+                <div>
+                    <h2 class="text-4xl font-bold text-[#f7b538] uppercase tracking-wide">Settings</h2>
+                    <p class="text-gray-300 mt-1">Configure your app preferences.</p>
+                </div>
+            </div>
+            <div class="bg-black/20 p-8 rounded-xl border border-[#f7b538]/20 text-center py-20 shadow-lg">
+                <h3 class="text-2xl font-bold text-[#f7b538] uppercase mb-2">Coming Soon</h3>
+                <p class="text-gray-400">Advanced settings panel will be available in the next major update.</p>
             </div>
         </section>
 
@@ -513,34 +549,53 @@
         }
 
         // Navigation
+        window.toggleSidebar = function() {
+            const sidebar = document.getElementById('right-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            const isClosed = sidebar.classList.contains('translate-x-full');
+
+            if (isClosed) {
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                // Brief delay to allow the display change before animating opacity
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+            } else {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300); // Wait for transition
+            }
+        };
+
         window.navigate = function(view) {
-            document.getElementById('home-view').classList.add('hidden');
-            document.getElementById('bookings-view').classList.add('hidden');
-            document.getElementById('admin-login-view').classList.add('hidden');
-            document.getElementById('admin-dashboard-view').classList.add('hidden');
+            const views = ['home-view', 'bookings-view', 'admin-login-view', 'admin-dashboard-view', 'settings-view'];
+            views.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.classList.add('hidden');
+            });
             
-            document.getElementById('nav-home').classList.remove('text-[#f7b538]', 'border-[#f7b538]');
-            document.getElementById('nav-home').classList.add('text-gray-300', 'border-transparent');
-            
-            document.getElementById('nav-bookings').classList.remove('text-[#f7b538]', 'border-[#f7b538]');
-            document.getElementById('nav-bookings').classList.add('text-gray-300', 'border-transparent');
-            
-            document.getElementById('nav-admin').classList.remove('text-[#f7b538]', 'border-[#f7b538]');
-            document.getElementById('nav-admin').classList.add('text-gray-300', 'border-transparent');
+            const navItems = ['home', 'bookings', 'admin', 'settings'];
+            navItems.forEach(item => {
+                const btn = document.getElementById('nav-' + item);
+                if(btn) {
+                    btn.classList.remove('text-[#f7b538]', 'bg-black/20', 'border-[#f7b538]/30');
+                    btn.classList.add('text-gray-300', 'border-transparent');
+                }
+            });
+
+            let activeNavId = view === 'admin-login' ? 'admin' : view;
+            const activeBtn = document.getElementById('nav-' + activeNavId);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-gray-300', 'border-transparent');
+                activeBtn.classList.add('text-[#f7b538]', 'bg-black/20', 'border-[#f7b538]/30');
+            }
 
             if (view === 'home') {
                 document.getElementById('home-view').classList.remove('hidden');
-                document.getElementById('nav-home').classList.add('text-[#f7b538]', 'border-[#f7b538]');
-                document.getElementById('nav-home').classList.remove('text-gray-300', 'border-transparent');
                 renderSlots();
             } else if (view === 'bookings') {
                 document.getElementById('bookings-view').classList.remove('hidden');
-                document.getElementById('nav-bookings').classList.add('text-[#f7b538]', 'border-[#f7b538]');
-                document.getElementById('nav-bookings').classList.remove('text-gray-300', 'border-transparent');
                 renderMyBookings();
-            } else if (view === 'admin-login') {
-                document.getElementById('nav-admin').classList.add('text-[#f7b538]', 'border-[#f7b538]');
-                document.getElementById('nav-admin').classList.remove('text-gray-300', 'border-transparent');
+            } else if (view === 'admin-login' || view === 'admin') {
                 if (isAdmin) {
                     document.getElementById('admin-dashboard-view').classList.remove('hidden');
                     renderAdminSlots();
@@ -548,6 +603,8 @@
                 } else {
                     document.getElementById('admin-login-view').classList.remove('hidden');
                 }
+            } else if (view === 'settings') {
+                document.getElementById('settings-view').classList.remove('hidden');
             }
         };
 
