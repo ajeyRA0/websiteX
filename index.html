@@ -49,6 +49,7 @@
                 <div class="flex items-center space-x-4 sm:space-x-8">
                     <button onclick="navigate('home')" id="nav-home" class="text-[#f7b538] border-b-2 border-[#f7b538] pb-1 font-bold text-lg uppercase tracking-widest hover:text-white transition-colors duration-300">Home</button>
                     <button onclick="navigate('bookings')" id="nav-bookings" class="text-gray-300 border-b-2 border-transparent pb-1 font-bold text-lg uppercase tracking-widest hover:text-[#f7b538] transition-colors duration-300">My Bookings</button>
+                    <button onclick="navigate('admin-login')" id="nav-admin" class="text-gray-300 border-b-2 border-transparent pb-1 font-bold text-lg uppercase tracking-widest hover:text-[#f7b538] transition-colors duration-300">Admin</button>
                 </div>
             </div>
         </div>
@@ -88,6 +89,91 @@
                 <p class="text-[#f7b538] text-2xl font-bold mb-2">No active bookings found.</p>
                 <p class="text-gray-400 mb-6">You haven't registered for any scrims yet.</p>
                 <button onclick="navigate('home')" class="bg-transparent border-2 border-[#f7b538] text-[#f7b538] font-bold uppercase py-2 px-6 rounded hover:bg-[#f7b538] hover:text-black transition-all duration-300">Browse Slots</button>
+            </div>
+        </section>
+
+        <!-- Admin Login Section -->
+        <section id="admin-login-view" class="hidden animate-fade-in flex justify-center items-center py-12">
+            <div class="bg-black/40 border border-[#f7b538] rounded-xl p-8 max-w-md w-full glow-gold shadow-2xl mt-10">
+                <h2 class="text-3xl font-bold text-[#f7b538] uppercase tracking-wide text-center mb-6">Admin Portal</h2>
+                <form id="admin-login-form" class="space-y-6">
+                    <div>
+                        <label class="block text-[#f7b538] text-sm font-bold mb-2 uppercase tracking-wide">Username</label>
+                        <input type="text" id="admin-user" class="w-full bg-black/50 border border-[#f7b538]/50 rounded p-3 text-white focus:outline-none focus:border-[#f7b538] focus:ring-1 focus:ring-[#f7b538] transition-all" placeholder="Enter username" required>
+                    </div>
+                    <div>
+                        <label class="block text-[#f7b538] text-sm font-bold mb-2 uppercase tracking-wide">Password</label>
+                        <input type="password" id="admin-pass" class="w-full bg-black/50 border border-[#f7b538]/50 rounded p-3 text-white focus:outline-none focus:border-[#f7b538] focus:ring-1 focus:ring-[#f7b538] transition-all" placeholder="Enter password" required>
+                    </div>
+                    <div id="admin-error" class="hidden text-red-400 text-sm font-bold text-center bg-black/50 py-2 border border-red-900 rounded">Invalid credentials</div>
+                    <button type="submit" class="w-full bg-[#f7b538] text-black font-black uppercase text-lg py-3 rounded glow-gold-hover hover:bg-white hover:text-[#780116] transition-all duration-300">
+                        Login
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Admin Dashboard Section -->
+        <section id="admin-dashboard-view" class="hidden animate-fade-in">
+            <div class="flex justify-between items-end mb-8 border-b border-[#f7b538]/30 pb-4">
+                <div>
+                    <h2 class="text-4xl font-bold text-[#f7b538] uppercase tracking-wide">Admin Dashboard</h2>
+                    <p class="text-gray-300 mt-1">Manage slots and view all user bookings in real-time.</p>
+                </div>
+                <button onclick="logoutAdmin()" class="bg-transparent border border-[#f7b538] text-[#f7b538] px-4 py-2 rounded font-bold uppercase text-sm hover:bg-[#f7b538] hover:text-black transition-colors">Logout</button>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Create/Edit Slot Form -->
+                <div class="lg:col-span-1 bg-black/30 border border-[#f7b538]/50 rounded-xl p-6 h-fit glow-gold shadow-lg">
+                    <h3 class="text-2xl font-bold text-[#f7b538] uppercase mb-4 border-b border-[#f7b538]/20 pb-2">Add New Slot</h3>
+                    <form id="create-slot-form" class="space-y-4">
+                        <input type="hidden" id="edit-slot-id">
+                        <div>
+                            <label class="block text-xs text-[#f7b538] font-bold mb-1 uppercase">Slot Name</label>
+                            <input type="text" id="new-slot-name" class="w-full bg-black/50 border border-[#f7b538]/50 rounded p-2 text-white text-sm focus:outline-none focus:border-[#f7b538]" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-[#f7b538] font-bold mb-1 uppercase">Game Name</label>
+                            <input type="text" id="new-slot-game" value="Free Fire" class="w-full bg-black/50 border border-[#f7b538]/50 rounded p-2 text-white text-sm focus:outline-none focus:border-[#f7b538]" required>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs text-[#f7b538] font-bold mb-1 uppercase">Date</label>
+                                <input type="date" id="new-slot-date" class="w-full bg-black/50 border border-[#f7b538]/50 rounded p-2 text-white text-sm focus:outline-none focus:border-[#f7b538]" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-[#f7b538] font-bold mb-1 uppercase">Time</label>
+                                <input type="time" id="new-slot-time" class="w-full bg-black/50 border border-[#f7b538]/50 rounded p-2 text-white text-sm focus:outline-none focus:border-[#f7b538]" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-[#f7b538] font-bold mb-1 uppercase">Total Seats</label>
+                            <input type="number" id="new-slot-seats" class="w-full bg-black/50 border border-[#f7b538]/50 rounded p-2 text-white text-sm focus:outline-none focus:border-[#f7b538]" required>
+                        </div>
+                        <button type="submit" id="save-slot-btn" class="w-full bg-[#f7b538] text-black font-bold uppercase py-2 rounded mt-2 hover:bg-white transition-colors glow-gold-hover">Create Slot</button>
+                        <button type="button" id="cancel-edit-btn" onclick="cancelEdit()" class="hidden w-full bg-transparent border border-gray-500 text-gray-400 font-bold uppercase py-2 rounded mt-2 hover:text-white transition-colors">Cancel Edit</button>
+                    </form>
+                </div>
+
+                <!-- Manage Slots & View Bookings -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Manage Slots -->
+                    <div class="bg-black/20 p-6 rounded-xl border border-[#f7b538]/20">
+                        <h3 class="text-2xl font-bold text-[#f7b538] uppercase mb-4 border-b border-[#f7b538]/20 pb-2">Manage Slots</h3>
+                        <div id="admin-slots-container" class="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                            <!-- Admin slots injected here -->
+                        </div>
+                    </div>
+
+                    <!-- All Bookings -->
+                    <div class="bg-black/20 p-6 rounded-xl border border-[#f7b538]/20">
+                        <h3 class="text-2xl font-bold text-[#f7b538] uppercase mb-4 border-b border-[#f7b538]/20 pb-2">All User Bookings</h3>
+                        <div id="admin-bookings-container" class="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                            <!-- Admin bookings injected here -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -183,8 +269,12 @@
         let myBookings = [];
         let unsubscribeBookings = null;
         
-        // Mock Initial Slots (In a real app, these would also come from DB)
-        const availableSlots = [
+        // Admin State & Data
+        let isAdmin = false;
+        let allBookings = []; 
+        
+        // Mock Initial Slots (Using 'let' instead of 'const' to allow Admin edits)
+        let availableSlots = [
             { id: 's1', name: "Daily T3 Scrims", game: "Free Fire", date: "2026-03-25", time: "18:00 IST", seats: 12, total: 48 },
             { id: 's2', name: "Clash Squad Elite", game: "Free Fire", date: "2026-03-26", time: "20:00 IST", seats: 4, total: 24 },
             { id: 's3', name: "Midnight Rumble", game: "Free Fire", date: "2026-03-26", time: "23:30 IST", seats: 20, total: 48 },
@@ -341,6 +431,66 @@
             });
         }
 
+        // --- Admin Render Functions ---
+        function renderAdminSlots() {
+            const container = document.getElementById('admin-slots-container');
+            container.innerHTML = '';
+            
+            if(availableSlots.length === 0) {
+                container.innerHTML = '<p class="text-gray-400 text-sm">No slots available.</p>';
+                return;
+            }
+
+            availableSlots.forEach(slot => {
+                const el = document.createElement('div');
+                el.className = "bg-black/40 border-l-2 border-[#f7b538] rounded p-4 flex justify-between items-center transition-all hover:bg-black/60";
+                el.innerHTML = `
+                    <div>
+                        <h4 class="text-[#f7b538] font-bold uppercase text-sm">${slot.name} <span class="text-gray-500 text-xs ml-2">${slot.game}</span></h4>
+                        <p class="text-xs text-gray-400 mt-1">📅 ${slot.date} ⏰ ${slot.time} | Seats: <span class="${slot.seats === 0 ? 'text-red-400' : 'text-white'}">${slot.seats}/${slot.total}</span></p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button onclick="editSlot('${slot.id}')" class="text-gray-300 hover:text-[#f7b538] text-xs font-bold uppercase transition-colors">Edit</button>
+                        <button onclick="deleteSlot('${slot.id}')" class="text-gray-300 hover:text-red-500 text-xs font-bold uppercase transition-colors">Delete</button>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+        }
+
+        function renderAllBookings() {
+            const container = document.getElementById('admin-bookings-container');
+            container.innerHTML = '';
+            
+            if (allBookings.length === 0) {
+                container.innerHTML = '<p class="text-gray-400 text-sm">No bookings have been made yet.</p>';
+                return;
+            }
+
+            // Sort newest first
+            const sortedBookings = [...allBookings].sort((a, b) => b.timestamp - a.timestamp);
+
+            sortedBookings.forEach(booking => {
+                const el = document.createElement('div');
+                el.className = "bg-black/40 border border-[#f7b538]/30 rounded p-4";
+                el.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <span class="text-[10px] font-bold uppercase text-gray-500 block mb-1">Match / Room ID / Password</span>
+                            <span class="text-[#f7b538] font-bold uppercase text-sm block">${booking.slotName}</span>
+                            <span class="text-white text-xs font-mono">${booking.roomId} | ${booking.password}</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] font-bold uppercase text-gray-500 block mb-1">Player / UID / Contact</span>
+                            <span class="text-white font-bold text-sm block">${booking.playerName}</span>
+                            <span class="text-gray-400 text-xs">${booking.gameUid} | ${booking.contactInfo}</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+        }
+
         // Firebase Listeners
         function setupBookingsListener() {
             if (!currentUser || !db) return;
@@ -366,12 +516,17 @@
         window.navigate = function(view) {
             document.getElementById('home-view').classList.add('hidden');
             document.getElementById('bookings-view').classList.add('hidden');
+            document.getElementById('admin-login-view').classList.add('hidden');
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
             
             document.getElementById('nav-home').classList.remove('text-[#f7b538]', 'border-[#f7b538]');
             document.getElementById('nav-home').classList.add('text-gray-300', 'border-transparent');
             
             document.getElementById('nav-bookings').classList.remove('text-[#f7b538]', 'border-[#f7b538]');
             document.getElementById('nav-bookings').classList.add('text-gray-300', 'border-transparent');
+            
+            document.getElementById('nav-admin').classList.remove('text-[#f7b538]', 'border-[#f7b538]');
+            document.getElementById('nav-admin').classList.add('text-gray-300', 'border-transparent');
 
             if (view === 'home') {
                 document.getElementById('home-view').classList.remove('hidden');
@@ -383,6 +538,16 @@
                 document.getElementById('nav-bookings').classList.add('text-[#f7b538]', 'border-[#f7b538]');
                 document.getElementById('nav-bookings').classList.remove('text-gray-300', 'border-transparent');
                 renderMyBookings();
+            } else if (view === 'admin-login') {
+                document.getElementById('nav-admin').classList.add('text-[#f7b538]', 'border-[#f7b538]');
+                document.getElementById('nav-admin').classList.remove('text-gray-300', 'border-transparent');
+                if (isAdmin) {
+                    document.getElementById('admin-dashboard-view').classList.remove('hidden');
+                    renderAdminSlots();
+                    renderAllBookings();
+                } else {
+                    document.getElementById('admin-login-view').classList.remove('hidden');
+                }
             }
         };
 
@@ -456,14 +621,17 @@
                 if (db && currentUser) {
                     const bookingsRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'bookings');
                     await addDoc(bookingsRef, bookingData);
+                    allBookings.push({ id: Date.now().toString(), ...bookingData }); // Store for Admin Panel Demo
                 } else {
                     // Offline fallback
                     myBookings.push({ id: Date.now().toString(), ...bookingData });
+                    allBookings.push({ id: Date.now().toString(), ...bookingData }); // Store for Admin Panel Demo
                 }
 
                 // Decrease memory available seats to simulate live system
                 if(slot.seats > 0) slot.seats -= 1;
                 renderSlots();
+                if(isAdmin) renderAdminSlots();
 
                 // Show Success View
                 document.getElementById('booking-form-view').classList.add('hidden');
@@ -483,6 +651,101 @@
                 btn.disabled = false;
             }
         });
+
+        // --- Admin Event Listeners & Logic ---
+        document.getElementById('admin-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('admin-user').value;
+            const pass = document.getElementById('admin-pass').value;
+            const errorDiv = document.getElementById('admin-error');
+            
+            // Hardcoded admin credentials as requested
+            if (user === 'admin' && pass === 'admin123') {
+                isAdmin = true;
+                errorDiv.classList.add('hidden');
+                document.getElementById('admin-login-form').reset();
+                navigate('admin-login'); // Re-evaluates navigate logic and shows dashboard
+                showToast("Admin logged in successfully");
+            } else {
+                errorDiv.classList.remove('hidden');
+            }
+        });
+
+        window.logoutAdmin = function() {
+            isAdmin = false;
+            navigate('home');
+            showToast("Admin logged out");
+        };
+
+        document.getElementById('create-slot-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const editId = document.getElementById('edit-slot-id').value;
+            const name = document.getElementById('new-slot-name').value;
+            const game = document.getElementById('new-slot-game').value;
+            const date = document.getElementById('new-slot-date').value;
+            const time = document.getElementById('new-slot-time').value;
+            const total = parseInt(document.getElementById('new-slot-seats').value);
+            
+            if (editId) {
+                // Update existing
+                const slotIndex = availableSlots.findIndex(s => s.id === editId);
+                if (slotIndex > -1) {
+                    const oldTotal = availableSlots[slotIndex].total;
+                    const oldSeats = availableSlots[slotIndex].seats;
+                    const diff = total - oldTotal; // Recalculate seats if total changed
+                    
+                    availableSlots[slotIndex] = {
+                        ...availableSlots[slotIndex],
+                        name, game, date, time, total,
+                        seats: Math.max(0, oldSeats + diff) 
+                    };
+                    showToast("Slot updated successfully");
+                }
+                cancelEdit();
+            } else {
+                // Create new
+                const newSlot = {
+                    id: 's' + Date.now(),
+                    name, game, date, time, total, seats: total
+                };
+                availableSlots.push(newSlot);
+                showToast("New slot created");
+                document.getElementById('create-slot-form').reset();
+            }
+            
+            renderAdminSlots();
+            renderSlots(); // Re-render public home slots
+        });
+
+        window.editSlot = function(id) {
+            const slot = availableSlots.find(s => s.id === id);
+            if (!slot) return;
+            
+            document.getElementById('edit-slot-id').value = slot.id;
+            document.getElementById('new-slot-name').value = slot.name;
+            document.getElementById('new-slot-game').value = slot.game;
+            document.getElementById('new-slot-date').value = slot.date;
+            document.getElementById('new-slot-time').value = slot.time;
+            document.getElementById('new-slot-seats').value = slot.total;
+            
+            document.getElementById('save-slot-btn').innerText = "Update Slot";
+            document.getElementById('cancel-edit-btn').classList.remove('hidden');
+        };
+
+        window.cancelEdit = function() {
+            document.getElementById('create-slot-form').reset();
+            document.getElementById('edit-slot-id').value = '';
+            document.getElementById('save-slot-btn').innerText = "Create Slot";
+            document.getElementById('cancel-edit-btn').classList.add('hidden');
+        };
+
+        window.deleteSlot = function(id) {
+            // Replaced window.confirm() with direct removal to adhere to secure iframe restrictions
+            availableSlots = availableSlots.filter(s => s.id !== id);
+            renderAdminSlots();
+            renderSlots();
+            showToast("Slot deleted successfully");
+        };
 
         // Utilities
         window.copyText = function(elementId) {
