@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Slots Neon</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at center, #b30000, #5a0000, #000);
+    overflow: hidden;
+    position: relative;
+}
+
+/* 🎮 Particles */
+body::before, body::after {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.15) 2px, transparent 2px);
+    background-size: 50px 50px;
+    animation: moveParticles 20s linear infinite;
+}
+
+body::after {
+    background-size: 80px 80px;
+    animation-duration: 35s;
+    opacity: 0.5;
+}
+
+@keyframes moveParticles {
+    from {
+        transform: translate(0,0);
+    }
+    to {
+        transform: translate(-200px, -200px);
+    }
+}
+
+/* Text */
+.text {
+    font-size: 8vw;
+    font-weight: 900;
+    letter-spacing: 6px;
+    display: flex;
+    gap: 15px;
+    z-index: 2;
+}
+
+/* ELITE - White Neon */
+.elite {
+    color: #fff;
+    text-shadow:
+        0 0 5px #fff,
+        0 0 10px #ff4d4d,
+        0 0 20px #ff1a1a,
+        0 0 40px #ff0000;
+    animation: neonFlicker 2s infinite alternate;
+}
+
+/* SLOTS - Gold Neon */
+.slots {
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow:
+        0 0 5px #FFD700,
+        0 0 15px #FFA500,
+        0 0 30px #ffcc00,
+        0 0 60px #ffaa00;
+    animation: neonPulse 2s infinite alternate;
+}
+
+/* Neon Animations */
+@keyframes neonFlicker {
+    from {
+        text-shadow:
+            0 0 5px #fff,
+            0 0 10px #ff4d4d,
+            0 0 20px #ff1a1a,
+            0 0 40px #ff0000;
+    }
+    to {
+        text-shadow:
+            0 0 2px #fff,
+            0 0 5px #ff4d4d,
+            0 0 10px #ff1a1a,
+            0 0 20px #ff0000;
+    }
+}
+
+@keyframes neonPulse {
+    from {
+        filter: brightness(1);
+    }
+    to {
+        filter: brightness(1.5);
+    }
+}
+
+/* Entry Animation */
+.text span {
+    opacity: 0;
+    transform: translateY(50px);
+    animation: riseUp 1.5s ease forwards;
+}
+
+.text span:nth-child(1) { animation-delay: 0.3s; }
+.text span:nth-child(2) { animation-delay: 0.6s; }
+
+@keyframes riseUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+
+</head>
+<body>
+
+<div class="text">
+    <span class="elite">ELITE</span>
+    <span class="slots">SLOTS</span>
+</div>
+
+</body>
+</html>
