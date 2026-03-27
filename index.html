@@ -474,8 +474,8 @@
         
         // Mock Initial Slots
         let availableSlots = [
-            { id: 's1', name: "Daily T3 Scrims", game: "Free Fire", date: "2026-03-25", time: "18:00 IST", seats: 12, total: 48, fee: "₹50", roomId: "RM-8802", password: "ELITE" },
-            { id: 's2', name: "Clash Squad Elite", game: "Free Fire", date: "2026-03-26", time: "20:00 IST", seats: 4, total: 24, fee: "₹100", roomId: "RM-1923", password: "SQUAD" }
+            { id: 's1', name: "Daily T3 Scrims", game: "Free Fire", date: "2026-03-25", time: "18:00", seats: 12, total: 48, fee: "₹50", roomId: "RM-8802", password: "ELITE" },
+            { id: 's2', name: "Clash Squad Elite", game: "Free Fire", date: "2026-03-26", time: "20:00", seats: 4, total: 24, fee: "₹100", roomId: "RM-1923", password: "SQUAD" }
         ];
 
         // Mock Initial Tournament Announcements
@@ -485,7 +485,7 @@
                 title: 'Mega Diwali Championship',
                 image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800',
                 date: '2026-10-24',
-                time: '14:00 IST',
+                time: '14:00',
                 fee: '₹500 / Squad (₹50K Pool)',
                 description: 'Join the biggest Free Fire squad championship of the year. Massive prize pool of ₹50,000 for the winning team! Make sure to register your squad details and secure your slot before they fill out completely. Live streaming on our official channel.'
             }
@@ -529,6 +529,20 @@
             });
         }
 
+        // --- Utility Function: Format Time ---
+        function format12Hour(time24) {
+            if (!time24) return '';
+            const cleanTime = time24.replace(' IST', '').trim();
+            const [h, m] = cleanTime.split(':');
+            if (!h || !m) return time24;
+            let hours = parseInt(h, 10);
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            const paddedHours = hours.toString().padStart(2, '0');
+            return `${paddedHours}:${m} ${ampm}`;
+        }
+
         // --- Core Render Functions ---
 
         // Render Home Slots
@@ -560,7 +574,7 @@
                             <span class="material-symbols-outlined text-[#f7b538] text-sm">calendar_month</span> <span>${slot.date}</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <span class="material-symbols-outlined text-[#f7b538] text-sm">schedule</span> <span>${slot.time}</span>
+                            <span class="material-symbols-outlined text-[#f7b538] text-sm">schedule</span> <span>${format12Hour(slot.time)}</span>
                         </div>
                     </div>
 
@@ -612,7 +626,7 @@
                             </div>
                             <div class="bg-black/40 p-2 rounded text-center border border-[#f7b538]/20">
                                 <span class="block text-gray-500 text-[10px] uppercase font-bold">Time</span>
-                                <span class="text-white font-bold">${post.time}</span>
+                                <span class="text-white font-bold">${format12Hour(post.time)}</span>
                             </div>
                             <div class="bg-black/40 p-2 rounded text-center border border-[#f7b538]/20 col-span-2">
                                 <span class="block text-gray-500 text-[10px] uppercase font-bold">Entry Fee / Details</span>
@@ -694,7 +708,7 @@
                 el.innerHTML = `
                     <div>
                         <h4 class="text-[#f7b538] font-bold uppercase text-sm">${slot.name} <span class="text-gray-500 text-[10px] ml-2 font-mono bg-black px-1 rounded">${slot.fee || 'Free'}</span></h4>
-                        <p class="text-xs text-gray-400 mt-1">📅 ${slot.date} ⏰ ${slot.time} | Seats: <span class="${slot.seats === 0 ? 'text-red-400' : 'text-white'}">${slot.seats}/${slot.total}</span></p>
+                        <p class="text-xs text-gray-400 mt-1">📅 ${slot.date} ⏰ ${format12Hour(slot.time)} | Seats: <span class="${slot.seats === 0 ? 'text-red-400' : 'text-white'}">${slot.seats}/${slot.total}</span></p>
                         <p class="text-[10px] text-gray-500 font-mono mt-1">Room: ${slot.roomId} | Pass: ${slot.password}</p>
                     </div>
                     <div class="flex space-x-3">
@@ -721,7 +735,7 @@
                 el.innerHTML = `
                     <div class="pr-4">
                         <h4 class="text-[#f7b538] font-bold uppercase text-sm">${post.title}</h4>
-                        <p class="text-[10px] text-gray-400 mt-1 uppercase">📅 ${post.date} &nbsp; ⏰ ${post.time}</p>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">📅 ${post.date} &nbsp; ⏰ ${format12Hour(post.time)}</p>
                         <p class="text-xs text-gray-300 mt-2 line-clamp-2">${post.description}</p>
                     </div>
                     <button onclick="deleteTourney('${post.id}')" class="text-red-900 border border-red-900 px-2 py-1 rounded hover:text-red-500 hover:border-red-500 text-[10px] font-bold uppercase transition-colors whitespace-nowrap">Delete</button>
